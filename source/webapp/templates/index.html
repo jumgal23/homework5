@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Operations</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+
+    <input type="text" id="numberA" placeholder="Enter number A">
+    <input type="text" id="numberB" placeholder="Enter number B">
+
+    <button onclick="performOperation('add')">Add</button>
+    <button onclick="performOperation('subtract')">Subtract</button>
+    <button onclick="performOperation('multiply')">Multiply</button>
+    <button onclick="performOperation('divide')">Divide</button>
+
+    <div id="result"></div>
+
+    <script>
+        function performOperation(operation) {
+            var A = $('#numberA').val();
+            var B = $('#numberB').val();
+
+            $.ajax({
+                url: '/' + operation + '/',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ "A": A, "B": B }),
+                success: function(response) {
+                    $('#result').css('color', 'green').text('Result: ' + response.answer);
+                },
+                error: function(response) {
+                    $('#result').css('color', 'red').text('Error: ' + response.responseJSON.error);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
